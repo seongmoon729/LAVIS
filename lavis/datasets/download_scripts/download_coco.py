@@ -38,8 +38,8 @@ if __name__ == "__main__":
         config_path
     ).datasets.coco_caption.build_info.images.storage
 
-    download_dir = Path(get_cache_path(storage_dir)).parent / "download"
-    storage_dir = Path(get_cache_path(storage_dir))
+    download_dir = Path(storage_dir).expanduser().parent / "download"
+    storage_dir = Path(storage_dir).expanduser()
 
     if storage_dir.exists():
         print(f"Dataset already exists at {storage_dir}. Aborting.")
