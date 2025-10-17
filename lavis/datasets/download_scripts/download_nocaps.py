@@ -100,8 +100,8 @@ if __name__ == "__main__":
     # print("Downloading testing annotations from %s" % tst_url)
     # download_file(tst_url, "tmp/nocaps_tst_ann.json")
 
-    val_ann_path = storage_dir.parent / 'nocaps_val_ann.json'
-    tst_ann_path = storage_dir.parent / 'nocaps_tst_ann.json'
+    val_ann_path = storage_dir.parent / 'nocap_val_4500_captions.json'
+    tst_ann_path = storage_dir.parent / 'nocaps_test_public.json'
    
     assert val_ann_path.exists(), f'There is no `{val_ann_path}`.'
     assert tst_ann_path.exists(), f'There is no `{tst_ann_path}`.'
