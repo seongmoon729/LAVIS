@@ -100,12 +100,15 @@ if __name__ == "__main__":
     # print("Downloading testing annotations from %s" % tst_url)
     # download_file(tst_url, "tmp/nocaps_tst_ann.json")
 
-    assert os.path.exists(storage_dir / 'nocaps_val_ann.json'), 'There is no `nocaps_val_ann.json` file.'
-    assert os.path.exists(storage_dir / 'nocaps_tst_ann.json'), 'There is no `nocaps_tst_ann.json` file.'
+    val_ann_path = storage_dir / 'nocaps_val_ann.json'
+    tst_ann_path = storage_dir / 'nocaps_tst_ann.json'
+   
+    assert val_ann_path.exists(), f'There is no `{val_ann_path}`.'
+    assert tst_ann_path.exists(), f'There is no `{tst_ann_path}`.'
 
     # open annotations
-    val_ann = json.load(open(storage_dir / "nocaps_val_ann.json"))
-    tst_ann = json.load(open(storage_dir / "nocaps_tst_ann.json"))
+    val_ann = json.load(val_ann_path.open())
+    tst_ann = json.load(tst_ann_path.open())
 
     # collect image urls
     val_info = val_ann["images"]
