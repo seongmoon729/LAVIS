@@ -92,17 +92,20 @@ if __name__ == "__main__":
     os.makedirs(os.path.join(storage_dir, "test"), exist_ok=True)
 
     # download annotations
-    val_url = "https://nocaps.s3.amazonaws.com/nocaps_val_4500_captions.json"
-    tst_url = "https://s3.amazonaws.com/nocaps/nocaps_test_image_info.json"
+    # val_url = "https://nocaps.s3.amazonaws.com/nocaps_val_4500_captions.json"
+    # tst_url = "https://s3.amazonaws.com/nocaps/nocaps_test_image_info.json"
 
-    print("Downloading validation annotations from %s" % val_url)
-    download_file(val_url, "tmp/nocaps_val_ann.json")
-    print("Downloading testing annotations from %s" % tst_url)
-    download_file(tst_url, "tmp/nocaps_tst_ann.json")
+    # print("Downloading validation annotations from %s" % val_url)
+    # download_file(val_url, "tmp/nocaps_val_ann.json")
+    # print("Downloading testing annotations from %s" % tst_url)
+    # download_file(tst_url, "tmp/nocaps_tst_ann.json")
+
+    assert os.path.exists(storage_dir / 'nocaps_val_ann.json'), 'There is no `nocaps_val_ann.json` file.'
+    assert os.path.exists(storage_dir / 'nocaps_tst_ann.json'), 'There is no `nocaps_tst_ann.json` file.'
 
     # open annotations
-    val_ann = json.load(open("tmp/nocaps_val_ann.json"))
-    tst_ann = json.load(open("tmp/nocaps_tst_ann.json"))
+    val_ann = json.load(open(storage_dir / "nocaps_val_ann.json"))
+    tst_ann = json.load(open(storage_dir / "nocaps_tst_ann.json"))
 
     # collect image urls
     val_info = val_ann["images"]
