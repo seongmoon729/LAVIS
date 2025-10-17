@@ -9,6 +9,7 @@ import json
 import logging
 import os
 import time
+from pathlib import Path
 from multiprocessing import Pool
 
 import numpy as np
@@ -81,7 +82,7 @@ if __name__ == "__main__":
     config_path = get_abs_path("configs/datasets/nocaps/defaults.yaml")
 
     storage_dir = OmegaConf.load(config_path).datasets.nocaps.build_info.images.storage
-    storage_dir = get_cache_path(storage_dir)
+    storage_dir = Path(storage_dir).expanduser()
     # make sure the storage dir exists
     os.makedirs(storage_dir, exist_ok=True)
     print("Storage dir:", storage_dir)
