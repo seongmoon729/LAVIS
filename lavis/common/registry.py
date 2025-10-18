@@ -4,7 +4,7 @@
  SPDX-License-Identifier: BSD-3-Clause
  For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
 """
-
+import os
 
 class Registry:
     mapping = {
@@ -278,7 +278,7 @@ class Registry:
 
     @classmethod
     def get_path(cls, name):
-        return cls.mapping["paths"].get(name, None)
+        return os.path.expanduser(cls.mapping["paths"].get(name, None))
 
     @classmethod
     def get(cls, name, default=None, no_warning=False):
