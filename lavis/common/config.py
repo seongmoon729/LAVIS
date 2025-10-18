@@ -26,12 +26,12 @@ class Config:
         user_config = self._build_opt_list(self.args.options)
 
         from lavis import __path__
-        project_path = Path(__path__)
-        if cfg.task == 'image_captioning_nocaps':
+        project_path = Path(__path__[0])
+        if args.task == 'image_captioning_nocaps':
             cfg_path = project_path / 'projects/blip/eval/nocaps_eval.yaml'
-        elif cfg.task == 'image_captioning_coco':
+        elif args.task == 'image_captioning_coco':
             cfg_path = project_path / 'projects/blip/eval/caption_coco_eval.yaml'
-        elif cfg.task == 'vqa_v2':
+        elif args.task == 'vqa_v2':
             cfg_path = project_path / 'projects/albef/eval/vqa_test.yaml'
         else:
             raise ValueError('Not supported yet')
