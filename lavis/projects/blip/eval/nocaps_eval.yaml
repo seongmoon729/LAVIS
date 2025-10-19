@@ -42,4 +42,4 @@ run:
   dist_url: "env://"
   distributed: True
 
-  report_metric: False
+  report_metric: True
