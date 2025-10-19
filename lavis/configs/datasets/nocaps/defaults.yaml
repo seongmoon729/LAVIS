@@ -13,10 +13,10 @@ datasets:
       annotations:
         val:
           url: https://storage.googleapis.com/sfr-vision-language-research/datasets/nocaps_val.json
-          storage:  ~/data/nocaps/nocap_val_4500_captions.json
+          storage:  ${oc.env:HOME}/data/nocaps/nocap_val_4500_captions.json
         test:
           url: https://storage.googleapis.com/sfr-vision-language-research/datasets/nocaps_test.json
-          storage: ~/data/nocaps/nocaps_test_public.json
+          storage: ${oc.env:HOME}/data/nocaps/nocaps_test_public.json
       images:
-        storage: ~/data/nocaps/images
+        storage: ${oc.env:HOME}/data/nocaps/images
         # storage: /export/share/datasets/vision/nocaps/
