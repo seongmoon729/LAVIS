@@ -35,7 +35,7 @@ run:
   output_dir: "output/BLIP/NoCaps"
 
   evaluate: True
-  test_splits: ["val", "test"]
+  test_splits: ["val"]
 
   device: "cuda"
   world_size: 1
