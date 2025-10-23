@@ -117,7 +117,7 @@ def coco_caption_eval(coco_gt_root, results_file, split):
     }
 
     # download_url(urls[split], coco_gt_root)
-    annotation_file = Path.home() / 'data/nocaps' / filenames[split])
+    annotation_file = Path.home() / 'data/nocaps' / filenames[split]
 
     # create coco object and coco_result object
     coco = COCO(annotation_file)
