@@ -7,7 +7,7 @@
 
 import json
 import os
-
+from pathlib import Path
 from lavis.common.dist_utils import main_process
 from lavis.common.registry import registry
 from lavis.tasks.base_task import BaseTask
@@ -107,17 +107,17 @@ from torchvision.datasets.utils import download_url
 
 
 def coco_caption_eval(coco_gt_root, results_file, split):
-    urls = {
-        "val": "https://storage.googleapis.com/sfr-vision-language-research/datasets/coco_karpathy_val_gt.json",
-        "test": "https://storage.googleapis.com/sfr-vision-language-research/datasets/coco_karpathy_test_gt.json",
-    }
+    # urls = {
+    #     "val": "https://storage.googleapis.com/sfr-vision-language-research/datasets/coco_karpathy_val_gt.json",
+    #     "test": "https://storage.googleapis.com/sfr-vision-language-research/datasets/coco_karpathy_test_gt.json",
+    # }
     filenames = {
-        "val": "coco_karpathy_val_gt.json",
-        "test": "coco_karpathy_test_gt.json",
+        "val": "nocap_val_4500_captions.json",
+        "test": "nocaps_test_public.json",
     }
 
-    download_url(urls[split], coco_gt_root)
-    annotation_file = os.path.join(coco_gt_root, filenames[split])
+    # download_url(urls[split], coco_gt_root)
+    annotation_file = Path.home() / 'data/nocaps' / filenames[split])
 
     # create coco object and coco_result object
     coco = COCO(annotation_file)
