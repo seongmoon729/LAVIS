@@ -15,23 +15,17 @@ from lavis.common.registry import registry
 
 
 class Config:
-    def __init__(self, args):
-        self.config = {}
-
-        self.args = args
-
+    def __init__(self, task):
         # Register the config and configuration for setup
         registry.register("configuration", self)
 
-        user_config = self._build_opt_list(self.args.options)
-
         from lavis import __path__
         project_path = Path(__path__[0])
-        if args.task == 'image_captioning_nocaps':
+        if task == 'image_captioning_nocaps':
             cfg_path = project_path / 'projects/blip/eval/nocaps_eval.yaml'
-        elif args.task == 'image_captioning_coco':
+        elif task == 'image_captioning_coco':
             cfg_path = project_path / 'projects/blip/eval/caption_coco_eval.yaml'
-        elif args.task == 'vqa_v2':
+        elif task == 'vqa_v2':
             cfg_path = project_path / 'projects/albef/eval/vqa_test.yaml'
         else:
             raise ValueError('Not supported yet')
@@ -39,7 +33,7 @@ class Config:
         config = OmegaConf.load(cfg_path)
 
         runner_config = self.build_runner_config(config)
-        model_config = self.build_model_config(config, **user_config)
+        model_config = self.build_model_config(config)
         dataset_config = self.build_dataset_config(config)
 
         # Validate the user-provided runner configuration
@@ -49,7 +43,7 @@ class Config:
 
         # Override the default configuration with user options.
         self.config = OmegaConf.merge(
-            runner_config, model_config, dataset_config, user_config
+            runner_config, model_config, dataset_config
         )
 
     def _validate_runner_config(self, runner_config):
