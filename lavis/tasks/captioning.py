@@ -63,9 +63,12 @@ class CaptionTask(BaseTask):
         return results
 
     def after_evaluation(self, val_result, split_name, epoch, **kwargs):
+        import tempfile
+        result_dir = tempfile.TemporaryDirectory()
+        
         eval_result_file = self.save_result(
             result=val_result,
-            result_dir=registry.get_path("result_dir"),
+            result_dir=result_dir.name,
             filename="{}_epoch{}".format(split_name, epoch),
             remove_duplicate="image_id",
         )
@@ -76,7 +79,7 @@ class CaptionTask(BaseTask):
             )
         else:
             metrics = {"agg_metrics": 0.0}
-
+        result_dir.cleanup()
         return metrics
 
     @main_process
