@@ -34,4 +34,4 @@ datasets:
               - ${oc.env:HOME}/data/okvqa/annotations/OpenEnded_mscoco_val2014_questions.json
               - ${oc.env:HOME}/data/okvqa/annotations/mscoco_val2014_annotations.json
       images:
-          storage: coco/images/
+          storage: ${oc.env:HOME}/data/okvqa/images/
