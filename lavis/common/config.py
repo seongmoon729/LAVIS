@@ -15,17 +15,15 @@ from lavis.common.registry import registry
 
 
 class Config:
-    def __init__(self, task):
+    def __init__(self, dataset):
         # Register the config and configuration for setup
         registry.register("configuration", self)
 
         from lavis import __path__
         project_path = Path(__path__[0])
-        if task == 'image_captioning_nocaps':
+        if dataset == 'nocaps':
             cfg_path = project_path / 'projects/blip/eval/nocaps_eval.yaml'
-        elif task == 'image_captioning_coco':
-            cfg_path = project_path / 'projects/blip/eval/caption_coco_eval.yaml'
-        elif task == 'vqa_v2':
+        elif dataset == 'coco_vqa':
             cfg_path = project_path / 'projects/albef/eval/vqa_test.yaml'
         else:
             raise ValueError('Not supported yet')
