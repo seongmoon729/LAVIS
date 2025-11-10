@@ -186,7 +186,10 @@ class VQA:
 
         print("Loading and preparing results...     ")
         time_t = datetime.datetime.utcnow()
-        anns = json.load(open(resFile))
+        if type(resFile) == str and resFile.endswith(".json"):
+            anns = json.load(open(resFile))
+        else:
+            anns = resFile
         assert type(anns) == list, "results is not an array of objects"
         annsQuesIds = [ann["question_id"] for ann in anns]
         assert set(annsQuesIds) == set(
