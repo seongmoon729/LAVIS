@@ -23,8 +23,8 @@ class Config:
         project_path = Path(__path__[0])
         if dataset == 'nocaps':
             cfg_path = project_path / 'projects/blip/eval/nocaps_eval.yaml'
-        elif dataset == 'coco_vqa':
-            cfg_path = project_path / 'projects/albef/eval/vqa_test.yaml'
+        elif dataset == 'ok_vqa':
+            cfg_path = project_path / 'projects/blip/eval/okvqa_eval.yaml'
         else:
             raise ValueError('Not supported yet')
             
