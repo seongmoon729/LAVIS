@@ -50,6 +50,7 @@ class BlipVQA(BlipBase):
         self.text_decoder = text_decoder
 
         self.max_txt_len = max_txt_len
+        self._cached_answer_list = None
 
     def forward(self, samples):
         """
@@ -282,10 +283,22 @@ class BlipVQA(BlipBase):
         Return the answers that minimize the losses as result.
 
         """
-        answer_candidates = self.tokenizer(
-            answer_list, padding="longest", return_tensors="pt"
-        ).to(self.device)
-        answer_candidates.input_ids[:, 0] = self.tokenizer.bos_token_id
+
+        if self._cached_answer_list == answer_list:
+            answer_candidates = self._cached_answer_candidates.copy()
+            answer_candidates.input_ids = answer_candidates.input_ids.to(self.device)
+            answer_candidates.attention_mask = answer_candidates.attention_mask.to(self.device)
+            answer_candidates.token_type_ids = answer_candidates.token_type_ids.to(self.device)
+        else:
+            answer_candidates = self.tokenizer(
+                answer_list, padding="longest", return_tensors="pt"
+            ).to(self.device)
+            answer_candidates.input_ids[:, 0] = self.tokenizer.bos_token_id
+            self._cached_answer_list = answer_list
+            self._cached_answer_candidates = answer_candidates.copy()
+            self._cached_answer_candidates.input_ids = self._cached_answer_candidates.input_ids.cpu().pin_memory()
+            self._cached_answer_candidates.attention_mask = self._cached_answer_candidates.attention_mask.cpu().pin_memory()
+            self._cached_answer_candidates.token_type_ids = self._cached_answer_candidates.token_type_ids.cpu().pin_memory()
 
         answer_ids = answer_candidates.input_ids
         answer_atts = answer_candidates.attention_mask
@@ -307,7 +320,7 @@ class BlipVQA(BlipBase):
             reduction="none",
         )
         logits = start_output.logits[:, 0, :]  # first token's logit
-
+        
         # topk_probs: top-k probability
         # topk_ids: [num_question, k]
         answer_first_token = answer_ids[:, 1]
@@ -345,12 +358,11 @@ class BlipVQA(BlipBase):
 
         log_probs_sum = -output.loss
         log_probs_sum = log_probs_sum.view(num_ques, num_ans_candidates)
-
+        
         max_topk_ids = log_probs_sum.argmax(dim=1)
-        max_ids = topk_ids[max_topk_ids >= 0, max_topk_ids]
-
+        max_ids = topk_ids.gather(1, max_topk_ids.unsqueeze(1)).squeeze()
+        
         answers = [answer_list[max_id] for max_id in max_ids]
-
         return answers
 
     @classmethod
